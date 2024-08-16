@@ -23,4 +23,3 @@ The command interpreter is exactly like the UNIX Shell, only that it is limited 
   ![Screenshot 2024-08-15 210441](https://github.com/user-attachments/assets/efd8bdc8-118d-4835-89f3-dd802a14966f)
   # Non-interactive mode
   ![Screenshot 2024-08-16 111941](https://github.com/user-attachments/assets/d17eca41-c991-4f44-a9df-ade3889e071f)
-# AirBnB_clone
