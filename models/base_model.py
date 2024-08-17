@@ -36,7 +36,7 @@ class BaseModel(object):
 
     def __str__(self):
         """Return a human-readable string representation of a class instance."""
-        return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
+        return f"[{cls.__name__}] ({self.id}) {self.__dict__}"
 
 
     def save(self):
@@ -49,7 +49,7 @@ class BaseModel(object):
     def to_dict(self):
         """Returns a dict representation of a class instance."""
         my_dict = self.__dict__.copy()
-        my_dict["__class__"] = type(self).__name__
+        my_dict["__class__"] = cls.__name__
         my_dict["created_at"] = self.created_at.isoformat()
         my_dict["updated_at"] = self.updated_at.isoformat()
         return my_dict
