@@ -36,7 +36,7 @@ class BaseModel(object):
 
     def __str__(self):
         """Return a human-readable string representation of a class instance."""
-        return f"{[self.__name__]} {(self.id)} {self.__dict__}"
+        return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
 
 
     def save(self):
