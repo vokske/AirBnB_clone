@@ -49,7 +49,7 @@ class BaseModel(object):
     def to_dict(self):
         """Returns a dict representation of a class instance."""
         my_dict = self.__dict__.copy()
-        my_dict["__class__"] = self.__name__
+        my_dict["__class__"] = type(self).__name__
         my_dict["created_at"] = self.created_at.isoformat()
         my_dict["updated_at"] = self.updated_at.isoformat()
         return my_dict
