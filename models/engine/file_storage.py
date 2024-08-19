@@ -62,7 +62,3 @@ class FileStorage:
                 if obj_class:
                     obj = obj_class(**value)
                     FileStorage.__objects[key] = obj
-
-
-
-
