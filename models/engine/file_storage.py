@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Module contain class FileStorage."""
-from models.base_model import BaseModel
 import os
 import json
 
@@ -43,14 +42,8 @@ class FileStorage:
         if os.path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path, 'r') as f:
                 json_dict = json.load(f)
-
-            class_map = {
-                    'BaseModel': BaseModel,
-                    }
-
             for key, value in json_dict.items():
                 class_name, obj_id = key.split('.')
-                obj_class = class_map.get(class_name)
-                if obj_class:
-                    obj = obj_class(**value)
-                    FileStorage.__objects[key] = obj
+                obj_class = globals()[class_name]
+                obj = obj_class(**value)
+                FileStorage.__objects[key] = obj
