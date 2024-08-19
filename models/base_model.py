@@ -2,7 +2,6 @@
 """Module contains class BaseModel."""
 import uuid
 from datetime import datetime
-from models import storage
 
 
 class BaseModel:
@@ -30,6 +29,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = self.created_at
+            from models import storage
             storage.new(self)
 
     def __str__(self):
