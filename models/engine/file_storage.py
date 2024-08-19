@@ -2,6 +2,7 @@
 """Module contain class FileStorage."""
 import os
 import json
+from models.base_model import BaseModel
 
 
 class FileStorage:
