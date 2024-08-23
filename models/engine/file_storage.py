@@ -1,8 +1,7 @@
 #!/usr/bin/python3
-"""Module contain class FileStorage."""
+"""Module contains class FileStorage."""
 import os
 import json
-from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -29,22 +28,34 @@ class FileStorage:
     def new(self, obj):
         """Sets in __objects the obj with key <obj class name>.id."""
         key = f"{obj.__class__.__name__}.{obj.id}"
-        FileStorage.__objects[key] = obj
+        self.__objects[key] = obj
 
     def save(self):
         """Serializes __objects to a JSON file."""
         json_dict = {}
-        for key, obj in FileStorage.__objects.items():
+        for key, obj in self.__objects.items():
             json_dict[key] = obj.to_dict()
-        with open(FileStorage.__file_path, 'w') as f:
+        with open(self.__file_path, 'w') as f:
             json.dump(json_dict, f)
 
+    def classes(self):
+        """Return a dictionary of classes and their references."""
+        from models.base_model import BaseModel
+
+        class_dict = {"BaseModel": BaseModel}
+        return class_dict
+
     def reload(self):
-        if os.path.exists(FileStorage.__file_path):
-            with open(FileStorage.__file_path, 'r') as f:
+        """Deserializes the JSON file to __objects if the file exists."""
+        if os.path.exists(self.__file_path):
+            with open(self.__file_path, 'r') as f:
                 json_dict = json.load(f)
+
+            valid_classes = self.classes()
+
             for key, value in json_dict.items():
                 class_name, obj_id = key.split('.')
-                obj_class = globals()[class_name]
-                obj = obj_class(**value)
-                FileStorage.__objects[key] = obj
+                obj_class = valid_classes.get(class_name)
+                if obj_class:
+                    obj = obj_class(**value)
+                    self.__objects[key] = obj
