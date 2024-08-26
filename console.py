@@ -43,12 +43,12 @@ class HBNBCommand(cmd.Cmd):
         based on the class name and id.
         """
         if not line:
-            print("** class name is missing **")
+            print("** class name missing **")
             return
         args = line.split(' ')
 
         if len(args) == 1:
-            print("** instance id is missing **")
+            print("** instance id missing **")
             return
         else:
             class_name = args[0]
@@ -73,22 +73,26 @@ class HBNBCommand(cmd.Cmd):
             return
         else:
             args = line.split(' ')
-            class_name = args[0]
-            instance_id = args[1]
-            if class_name not in storage.classes():
-                print("** class name doesn't exist **")
-                return
-            elif not instance_id:
+
+            if len(args) < 2:
                 print("** instance id missing **")
-                return
             else:
+                class_name = args[0]
+                instance_id = args[1]
+
+                if class_name not in storage.classes():
+                    print("** class doesn't exist **")
+                return
+
                 key = f"{class_name}.{instance_id}"
                 instance = storage.all().get(key)
+
                 if not instance:
                     print("** no instance found **")
                     return
-                del storage.all()[key]
-                storage.save()
+                else:
+                    del storage.all()[key]
+                    storage.save()
 
     def do_all(self, line):
         """Prints all string representation of all
@@ -112,7 +116,7 @@ class HBNBCommand(cmd.Cmd):
             class_name = args[0]
 
             if class_name not in storage.classes():
-                print("** class name doesn't exist **")
+                print("** class doesn't exist **")
 
             elif len(args) < 2:
                 print("** instance id missing **")
@@ -148,4 +152,4 @@ class HBNBCommand(cmd.Cmd):
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
-storage._FileStorage__objects.clear()
+    storage._FileStorage__objects.clear()
