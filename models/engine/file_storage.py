@@ -36,7 +36,9 @@ class FileStorage:
         for key, obj in self.__objects.items():
             json_dict[key] = obj.to_dict()
 
-        os.makedirs(os.path.dirname(self.__file_path), exist_ok=True)
+        directory = os.path.dirname(self.__file_path)
+        if directory:
+            os.makedirs(directory, exist_ok=True)
 
         with open(self.__file_path, 'w') as f:
             json.dump(json_dict, f)
