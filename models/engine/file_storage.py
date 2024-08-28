@@ -35,14 +35,20 @@ class FileStorage:
         json_dict = {}
         for key, obj in self.__objects.items():
             json_dict[key] = obj.to_dict()
+
+        os.makedirs(os.path.dirname(self.__file_path), exist_ok=True)
+
         with open(self.__file_path, 'w') as f:
             json.dump(json_dict, f)
 
     def classes(self):
         """Return a dictionary of classes and their references."""
         from models.base_model import BaseModel
+        from models.user import User
 
-        class_dict = {"BaseModel": BaseModel}
+        class_dict = {"BaseModel": BaseModel,
+                "User": User
+                }
         return class_dict
 
     def reload(self):
