@@ -180,6 +180,7 @@ class HBNBCommand(cmd.Cmd):
 
                     if instance is None:
                         print("** no instance found **")
+                        return
                     print(instance)
 
 
