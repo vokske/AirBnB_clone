@@ -3,7 +3,12 @@
 import cmd
 from models.base_model import BaseModel
 from models import storage
-
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 class HBNBCommand(cmd.Cmd):
     """Simple command interpreter"""
@@ -26,7 +31,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, line):
-        """Creates a new instance of BaseModel, saves it
+        """Creates a new instance of a valid class, saves it
         to a JSON file and prints the id.
         """
         if not line:
@@ -34,7 +39,7 @@ class HBNBCommand(cmd.Cmd):
         elif line not in storage.classes():
             print("** class doesn't exist **")
         else:
-            a = BaseModel()
+            a = storage.classes()[line]()
             a.save()
             print(a.id)
 
@@ -98,11 +103,13 @@ class HBNBCommand(cmd.Cmd):
         """Prints all string representation of all
         instances based or not on the class name.
         """
-        if not line or line in storage.classes():
+        if not line:
             instances = [str(value) for key, value in storage.all().items()]
-            print(instances)
-        else:
+        elif line not in storage.classes():
             print("** class doesn't exist **")
+        else:
+            instances = [str(value) for key, value in storage.all().items() if key.startswith(f"{line}.")]
+        print(instances)
 
     def do_update(self, line):
         """Updates an instance based on the class name and id by adding
@@ -147,9 +154,8 @@ class HBNBCommand(cmd.Cmd):
 
                 else:
                     setattr(instance, attr_name, attr_value)
-                storage.save()
+                    storage.save()
 
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
-    storage._FileStorage__objects.clear()
