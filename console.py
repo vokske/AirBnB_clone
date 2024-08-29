@@ -171,7 +171,7 @@ class HBNBCommand(cmd.Cmd):
                 if method == "all()":
                     print(instances)
                 elif method == "count()":
-                    return len(instances)
+                    print(len(instances))
 
 
 
