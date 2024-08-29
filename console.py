@@ -156,6 +156,20 @@ class HBNBCommand(cmd.Cmd):
                     setattr(instance, attr_name, attr_value)
                     storage.save()
 
+    def default(self, line):
+        """Handles commands for which there's no 'do_xx method'."""
+        command = line.split(".")
+        if len(command) != 2:
+            return
+        else:
+            class_name = command[0]
+            method = command[1]
+            if class_name not in storage.classes():
+                print("** class doesn't exist **")
+            else:
+                instances = [str(value) for key, value in storage.all().items() if key.startswith(f"{class_name}.")]
+                print(instances)
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
