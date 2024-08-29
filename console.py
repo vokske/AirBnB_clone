@@ -182,6 +182,17 @@ class HBNBCommand(cmd.Cmd):
                         print("** no instance found **")
                         return
                     print(instance)
+                elif method.startswith("destroy"):
+                    destroy_arg = method.split("y")
+                    instance_id = destroy_arg[1].strip("()")
+                    key = f"{class_name}.{instance_id}"
+                    instance = storage.all().get(key)
+
+                    if instance is None:
+                        print("** no instance found **")
+                        return
+                    del storage.all()[key]
+                    storage.save()
 
 
 
