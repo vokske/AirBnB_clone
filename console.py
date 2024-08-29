@@ -168,7 +168,11 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
             else:
                 instances = [str(value) for key, value in storage.all().items() if key.startswith(f"{class_name}.")]
-                print(instances)
+                if method == "all():"
+                    print(instances)
+                elif method == "count()":
+                    return len(instances)
+
 
 
 if __name__ == '__main__':
