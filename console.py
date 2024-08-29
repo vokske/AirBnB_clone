@@ -172,6 +172,15 @@ class HBNBCommand(cmd.Cmd):
                     print(instances)
                 elif method == "count()":
                     print(len(instances))
+                elif method.startswith("show"):
+                    show_arg = method.split("w")
+                    instance_id = show_arg[1].strip("()")
+                    key = f"{class_name}.{instance_id}"
+                    instance = storage.all().get(key)
+
+                    if instance is None:
+                        print("** no instance found **")
+                    print(instance)
 
 
 
