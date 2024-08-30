@@ -205,8 +205,8 @@ class HBNBCommand(cmd.Cmd):
                         attr_name = update_args[1]
                         attr_value = update_args[2]
                         key = f"{class_name}.{instance_id}"
-                        instance = storage.all()[key]
-                        if instance is None:
+                        instance = storage.all().get(key)
+                        if not instance:
                             print("** no instance found **")
                             return
                         setattr(instance, attr_name, attr_value)
@@ -217,7 +217,7 @@ class HBNBCommand(cmd.Cmd):
                         instance_id = update_args[0]
                         update_dict = ast.literal_eval(update_args[1])
                         key = f"{class_name}.{instance_id}"
-                        instance = storage.all()[key]
+                        instance = storage.all().get(key)
                         if instance is None:
                             print("** no instance found **")
                             return
