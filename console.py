@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Contains the class for a simple interpreter."""
 import cmd
+import ast
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -173,8 +174,8 @@ class HBNBCommand(cmd.Cmd):
                 elif method == "count()":
                     print(len(instances))
                 elif method.startswith("show"):
-                    show_arg = method.split("w")
-                    instance_id = show_arg[1].strip("()")
+                    method = method[5:-1]
+                    instance_id = method.strip('"')
                     key = f"{class_name}.{instance_id}"
                     instance = storage.all().get(key)
 
@@ -182,9 +183,10 @@ class HBNBCommand(cmd.Cmd):
                         print("** no instance found **")
                         return
                     print(instance)
+
                 elif method.startswith("destroy"):
-                    destroy_arg = method.split("y")
-                    instance_id = destroy_arg[1].strip("()")
+                    method = method[8:-1]
+                    instance_id = method.strip('"')
                     key = f"{class_name}.{instance_id}"
                     instance = storage.all().get(key)
 
@@ -194,6 +196,34 @@ class HBNBCommand(cmd.Cmd):
                     del storage.all()[key]
                     storage.save()
 
+                elif method.startswith("update"):
+                    method = method[7:-1]
+                    update_args = method.split('", ')
+                    if len(update_args) == 3:
+                        update_args = [update_arg.strip('"') for update_arg in update_args]
+                        instance_id = update_args[0]
+                        attr_name = update_args[1]
+                        attr_value = update_args[2]
+                        key = f"{class_name}.{instance_id}"
+                        instance = storage.all()[key]
+                        if instance is None:
+                            print("** no instance found **")
+                            return
+                        setattr(instance, attr_name, attr_value)
+                        storage.save()
+
+                    else:
+                        update_args = [update_arg.strip('"') for update_arg in update_args]
+                        instance_id = update_args[0]
+                        update_dict = ast.literal_eval(update_args[1])
+                        key = f"{class_name}.{instance_id}"
+                        instance = storage.all()[key]
+                        if instance is None:
+                            print("** no instance found **")
+                            return
+                        for key, value in update_dict.items():
+                            setattr(instance, key, value)
+                        storage.save()
 
 
 if __name__ == '__main__':
