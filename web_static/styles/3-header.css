@@ -1,0 +1,14 @@
+header {
+	height: 70px;
+	width: 100%;
+	background-color: white;
+	color: white;
+	border-bottom: 1px solid #CCCCCC;
+	background-image: url('../images/hbnb_logo.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 20px;
+}
